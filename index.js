@@ -16,13 +16,16 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // Serve static files (to allow CSS stylesheet)
 app.use(express.static(__dirname));
 
-// app.get("/", (req, res) => {
-//   // Logged in the terminal on the SERVER side
-//   console.log("Someone wants the root route!");
-//   // Sent to the client (visible in the browser window)
-//   res.send("Welcome to our site! 😎");
-// });
-
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/echo/:message", (req, res) => {
+  const message = req.params.message;
+
+  if (message === "secret") {
+    res.send("the secret is... 42!");
+  } else {
+    res.send(message);
+  }
 });
