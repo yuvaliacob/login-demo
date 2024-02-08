@@ -29,3 +29,26 @@ app.get("/echo/:message", (req, res) => {
     res.send(message);
   }
 });
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "login.html"));
+});
+
+app.get("/my-account", (req, res) => {
+  res.sendFile(path.join(__dirname, "my-account.html"));
+});
+
+app.get("/error", (req, res) => {
+  res.sendFile(path.join(__dirname, "error.html"));
+});
+
+app.post("/login", (req, res) => {
+  // set success to 'true' or 'false' to simulate both scenarios
+  const success = false;
+
+  if (success) {
+    res.redirect("/my-account");
+  } else {
+    res.redirect("/error");
+  }
+});
