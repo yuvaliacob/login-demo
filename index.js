@@ -15,6 +15,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 // Serve static files (to allow CSS stylesheet)
 app.use(express.static(__dirname));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -42,13 +43,32 @@ app.get("/error", (req, res) => {
   res.sendFile(path.join(__dirname, "error.html"));
 });
 
-app.post("/login", (req, res) => {
-  // set success to 'true' or 'false' to simulate both scenarios
-  const success = false;
+// 3. GET /login
+// app.post("/login", (req, res) => {
+//   // set success to 'true' or 'false' to simulate both scenarios
+//   const success = false;
 
-  if (success) {
-    res.redirect("/my-account");
-  } else {
-    res.redirect("/error");
+//   if (success) {
+//     res.redirect("/my-account");
+//   } else {
+//     res.redirect("/error");
+//   }
+// });
+// 3. GET /login
+
+// Route to handle login form submission
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  console.log(req.body);
+
+  if (!email || !password) {
+    return res.json({ success: false });
   }
+
+  if (email === "user@email.com" && password === "very-secret") {
+    return res.json({ success: true });
+  }
+
+  return res.json({ success: false });
 });
